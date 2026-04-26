@@ -6,7 +6,11 @@ from typing import Optional, Dict, List, Tuple
 from contextlib import contextmanager
 import secrets
 
-DATABASE_PATH = "email_assistant.db"
+# Use /data/ directory for persistence on Render if it exists
+if os.path.exists("/data"):
+    DATABASE_PATH = "/data/email_assistant.db"
+else:
+    DATABASE_PATH = "email_assistant.db"
 
 @contextmanager
 def get_db_connection():

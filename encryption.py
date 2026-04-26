@@ -17,6 +17,11 @@ def generate_key():
 
 def load_key():
     """Load the encryption key"""
+    # First check environment variable (preferred for cloud deployment)
+    env_key = os.getenv("ENCRYPTION_KEY")
+    if env_key:
+        return env_key.encode()
+
     if not os.path.exists(KEY_FILE):
         print("⚠️  No encryption key found, generating new one...")
         return generate_key()

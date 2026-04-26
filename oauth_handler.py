@@ -54,12 +54,21 @@ def initiate_oauth_flow(user_id: int) -> tuple[bool, str]:
         return False, f"❌ Missing {CREDENTIALS_FILE}. Please download it from Google Cloud Console."
     
     try:
+        # Use REDIRECT_URI from environment or default to localhost
+        redirect_uri = os.getenv("REDIRECT_URI", "http://localhost:8080/")
+        
         # Create OAuth flow
         flow = InstalledAppFlow.from_client_secrets_file(
             CREDENTIALS_FILE, 
             SCOPES,
-            redirect_uri='http://localhost:8080/'
+            redirect_uri=redirect_uri
         )
+        
+        # In cloud environments, we should ideally use the Web flow, 
+        # but for this setup we'll try to use the console flow if possible 
+        # or warn the user.
+        if os.getenv("RENDER"):
+            return False, "❌ OAuth 'run_local_server' does not work in cloud environments. Please connect your accounts locally and the encrypted tokens will be stored in the persistent database."
         
         # Run local server for OAuth callback
         creds = flow.run_local_server(

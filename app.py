@@ -621,6 +621,9 @@ def show_main_app():
     st.title("📁 FindMyFiles")
     st.caption(f"Logged in as: **{user_info['username']}** ({user_info['email']})")
 
+    if os.getenv("RENDER"):
+        st.warning("ℹ️ **Cloud Environment Detected**: Local file search is disabled on the server. Please search your Gmail and Google Drive.")
+
     # ── SIDEBAR ───────────────────────────────────────────────
     with st.sidebar:
         # ── PROFILE CARD ──────────────────────────────────────
