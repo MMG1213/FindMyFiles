@@ -1,0 +1,8 @@
+.env
+encryption.key
+credentials.json
+email_assistant.db
+__pycache__/
+user_data/
+*.pyc
+*.db
